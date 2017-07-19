@@ -1,0 +1,254 @@
+---------------------
+NPM COURSE
+---------------------
+
+npm install (into new/cloned project directory)
+npm start (only if package.json has start script)
+npm test (only if package.json has test script)
+
+Example Start Script
+--------------------
+
+{
+  "name": "trip-to-mars",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.13.3",
+    "lodash": "^3.10.1"
+  },
+  "devDependencies": {
+    "jshint": "^2.8.0"
+  },
+  "scripts": {
+    "start": "node server.js", <-- Right here
+    "test": "node test.js" <-- And here
+  },
+  "author": "Joe Eames",
+  "license": "ISC"
+}
+
+--------------------
+
+npm -h (command list)
+npm install -h (more command info)
+npm help install (opens browser to help page for command)
+npm help-search remove <-- "remove" can be replaced with any word
+
+npm init (Create defaults in package.json, will automatically include packages already installed if any)
+npm init -y (will do the same with all default answers entered)
+
+npm set init-author-name "Pete" (manually set individual package entries)
+
+npm get init-author-name (Return the entry)
+npm config delete init-author-name (Delete an entry)
+
+npm install (or) i <package-name> --save (or) -S (will add package to dependency file)
+
+npm i karma --save-dev (save testing dependency in dev) (or) npm i karma -D
+
+cat package.json (display file content)
+
+---------------------
+
+ls node_modules (show packages used in directories)
+npm list (same with tree structure)
+npm list --depth 1 (show dependencies x levels deep)
+
+---------------------
+
+gulp , grunt , karma needs to be installed globally to use from command line
+
+npm i gulp -g (global install)
+npm list -g --depth 0 (show installed libraries)
+
+npm uninstall underscore --save (removes dependencies from project and dependency list)
+npm rm underscore
+npm r underscore
+
+add -g to any of those to unstall global package
+
+----------------------
+
+install versions of packages
+
+version 1.8.3
+
+3 (patch number) small bug or performance fix
+8 (feature update) new functionality added without breaking anything
+1 (major version) when functions are not backwards compatible
+
+npm i underscore@1.8.2 --save --save-exact (specific version install)
+npm i underscore@1.x or 1.3.x or 1 (latest version of major version or patch number)
+
+^ will give latest version
+
+npm update --prod
+npm update underscore (update all or a single dependency)
+
+npm update -g (update all global dependencies)
+
+npm i npm@latest -g (RUN ON ADMIN)
+
+---------------------
+
+"scripts": {
+  "start": "node server.js",
+  "test": "node test.js"
+},
+
+Will run test script on terminal command
+
+"uglify": "gulp compress" -> npm run uglify (will run script)
+
+------------------------------------
+SETTING UP A JAVASCRIPT ENVIRONMENT
+------------------------------------
+
+.gitignore Node ***
+
+---------------
+
+.editorconfig (need to download plugin from site to use for certain text editors)
+http://editorconfig.org/#download
+
+
+# editorconfig.org
+root = true;
+
+[*]
+indent_style = space
+indent_size = 2
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+[*.md]
+trim_trailing_whitespace = false
+
+
+----------------
+
+Package managers
+
+bit.ly/jsdevpackagejson (link to package.json including dependencies)
+
+----------------
+
+{
+  "name": "javascript-development-environment",
+  "version": "1.0.0",
+  "description": "JavaScript development environment Pluralsight course by Cory House",
+  "scripts": {
+  },
+  "author": "Cory House",
+  "license": "MIT",
+  "dependencies": {
+    "whatwg-fetch": "1.0.0"
+  },
+  "devDependencies": {
+    "babel-cli": "6.16.0",
+    "babel-core": "6.17.0",
+    "babel-loader": "6.2.5",
+    "babel-preset-latest": "6.16.0",
+    "babel-register": "6.16.3",
+    "chai": "3.5.0",
+    "chalk": "1.1.3",
+    "cheerio": "0.22.0",
+    "compression": "1.6.2",
+    "cross-env": "3.1.3",
+    "css-loader": "0.25.0",
+    "eslint": "3.8.1",
+    "eslint-plugin-import": "2.0.1",
+    "eslint-watch": "2.1.14",
+    "express": "4.14.0",
+    "extract-text-webpack-plugin": "1.0.1",
+    "html-webpack-plugin": "2.22.0",
+    "jsdom": "9.8.0",
+    "json-schema-faker": "0.3.6",
+    "json-server": "0.8.22",
+    "localtunnel": "1.8.1",
+    "mocha": "3.1.2",
+    "nock": "8.1.0",
+    "npm-run-all": "3.1.1",
+    "nsp": "2.6.2",
+    "numeral": "1.5.3",
+    "open": "0.0.5",
+    "rimraf": "2.5.4",
+    "style-loader": "0.13.1",
+    "webpack": "1.13.2",
+    "webpack-dev-middleware": "1.8.4",
+    "webpack-hot-middleware": "2.13.0",
+    "webpack-md5-hash": "0.0.5"
+  }
+}
+
+----------------
+
+Then npm install into the project directory
+
+---------------
+
+Security/vulnerability scanning via Node Security Project once packages are installed
+
+Perform on npm start
+
+First install globally via
+npm install -g nsp
+
+Then run via
+nsp check
+
+----------------
+
+Development Webserver
+
+create folder buildScripts in root
+create file srcServer.js as follows
+
+----------------
+
+var express = require('express');
+var path = require ('path');
+var open = require('open') // open in browser
+
+var port = 3000;
+var app = express(); // create instance of express
+
+// declare routing
+app.get('/', function(req, res) {
+  res.sendFile(path.join(__dirname, '../src/index.html'));
+});
+
+// tell express to listen to port
+app.listen(port, function(err) {
+  if (err) {
+    console.log(err);
+  }
+  else {
+    open('http://localhost:' + port);
+  }
+})
+
+---------------
+
+node buildScripts/srcServer.js (runs the server)
+
+---------------
+
+Sharing work in progress via localtunnel
+npm install localtunnel -g
+
+open new terminal window and type 'lt --port 3000 --subdomain <pickaname>'
+this will generate a unique url to share your project live (ex: https://pickaname.localtunnel.me)
+
+ctrl c to kill url
+
+----------------
+
+Automation via npm scripts
+
+add "start": "node buildScripts/srcServer.js" to scripts in package.json
+run with npm start
