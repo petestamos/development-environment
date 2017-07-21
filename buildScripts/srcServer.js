@@ -1,9 +1,18 @@
-var express = require('express');
-var path = require ('path');
-var open = require('open') // open in browser
+import express from 'express';
+import path from 'path';
+import open from 'open'; // open in browser
+import webpack from 'webpack';
+import config from '../webpack.config.dev';
 
-var port = 3000;
-var app = express(); // create instance of express
+const port = 3000;
+const app = express(); // create instance of express
+const compiler = webpack(config);
+
+// tell express we want to use middleware and pass it the compiler set above
+app.use(require('webpack-dev-middleware')(compiler, {
+  noInfo: true,
+  publicPath: config.output.publicPath
+}));
 
 // declare routing
 app.get('/', function(req, res) {

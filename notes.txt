@@ -252,3 +252,89 @@ Automation via npm scripts
 
 add "start": "node buildScripts/srcServer.js" to scripts in package.json
 run with npm start
+
+npm run security-check
+
+----------------
+
+Running tasks in parallel
+
+"scripts": {
+  "prestart": "node buildScripts/startMessage.js",
+  "start": "npm-run-all --parallel security-check open:src",
+  "open:src": "node buildScripts/srcServer.js",
+  "security-check": "nsp check",
+  "localtunnel": "lt --port 3000",
+  "share": "npm-run-all --parallel open:src localtunnel"
+},
+
+npm start -s (omit clutter from console)
+or
+npm run share -s (run and create shareable link)
+
+----------------
+
+Transpiling Javascript via Babel
+
+create file .babelrc in root
+
+{
+  "presets": [
+    "latest"
+  ]
+}
+
+-----------------
+
+try ES6 code
+import chalk from 'chalk'; (babel transpiling test in startMessage)
+"prestart": "babel-node buildScripts/startMessage.js"
+npm start
+
+import express from 'express';
+import path from 'path';
+import open from 'open'; // open in browser
+
+const port = 3000;
+const app = express(); // create instance of express
+
+-----------------
+
+ES6 Modules and Webpack Bundler
+
+Webpack can import js, css, images with build in hot reloader
+will bundle all assets into single file in memory to be run in target environment (ex bundle.js below in output)
+
+webpack.config.dev.js
+
+------------------
+
+import path from 'path';
+
+export default {
+  debug: true,
+  devtool: 'inline-source-map',
+  noInfo: false,
+  entry: [
+    path.resolve(__dirname, 'src/index')
+  ],
+  target: 'web',
+  output: {
+    path: path.resolve(__dirname, 'src'),
+    publicPath: '/',
+    filename: 'bundle.js'
+  },
+  plugins: [],
+  module: {
+    loaders: [
+      {test: /\.js$/, exclude: /node_modules/, loaders: ['babel']},
+      {test: /\.css$/, loaders: ['style','css']}
+    ]
+  }
+}
+
+---------------------
+
+Sourcemap used to debug unbundled code
+
+Only downloaded if devtools are opened
